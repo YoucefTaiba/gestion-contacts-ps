@@ -39,9 +39,14 @@ public class Contact implements Serializable {
 	// Freelnace
 	private String adresse;
 	@OneToMany(targetEntity = Job.class)
-	private Set<Job> travail = new HashSet<Job>();
+	private Set<Job> jobs = new HashSet<Job>();
 
 	
+	public Contact() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Contact(String nom, String prenom, String adresse) {
 
 		this.nom = nom;
@@ -73,12 +78,12 @@ public class Contact implements Serializable {
 		this.adresse = adresse;
 	}
 
-	public Set<Job> getTravail() {
-		return travail;
+	public Set<Job> getJobs() {
+		return jobs;
 	}
 
-	public void setTrvail(Set<Job> workingAt) {
-		this.travail = workingAt;
+	public void setJobs(Set<Job> workingAt) {
+		this.jobs = workingAt;
 	}
 
 	@Override

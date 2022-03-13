@@ -16,6 +16,11 @@ public class Company implements Serializable {
 	private String email;
 	private float tva; 
 
+	public Company() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public Company(Long id, String nom, String adresse, float tva) {
 
 		this.id = id;
