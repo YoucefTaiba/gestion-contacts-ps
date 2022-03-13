@@ -47,13 +47,13 @@ public class ContactService {
 	public void addJob(Long id, Job job) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
 		if (contact.isPresent()) {
-			contact.get().getTravail().add(job);
+			contact.get().getJobs().add(job);
 		}
 	}
 	public void deleteJob(Long id, Job job) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
 		if (contact.isPresent()) {
-			contact.get().getTravail().remove(job);
+			contact.get().getJobs().remove(job);
 		}
 	}
 }
