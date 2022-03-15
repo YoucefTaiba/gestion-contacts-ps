@@ -52,6 +52,9 @@ public class Company implements Serializable {
 	public float getTva() {
 		return tva;
 	}
+	public Long getId() {
+		return id;
+	}
 
 	public void setNom(String nom) {
 		this.nom = nom;

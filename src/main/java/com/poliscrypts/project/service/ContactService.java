@@ -44,6 +44,7 @@ public class ContactService {
 	public void deleteContact(Long id) {
 		contactRepository.deleteContactById(id);
 	}
+	
 	public void addJob(Long id, Job job) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
 		if (contact.isPresent()) {

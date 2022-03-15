@@ -24,7 +24,7 @@ public class ContactRessource {
 		return new ResponseEntity<>(contactService.findAllContacts(), HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/find/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Contact> findContact(@PathVariable Long id) {
 		return new ResponseEntity<>(contactService.findContactById(id), HttpStatus.OK);
 	}

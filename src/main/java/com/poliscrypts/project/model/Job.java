@@ -42,6 +42,9 @@ public class Job {
 	public Float getTva() {
 		return tva;
 	}
+	public Long getId() {
+		return id;
+	}
 
 	public void setTitre(String titre) {
 		this.titre = titre;

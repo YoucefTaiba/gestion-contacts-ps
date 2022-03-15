@@ -77,6 +77,14 @@ public class Contact implements Serializable {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
+ 
+	public Long getId() {
+		return id;
+	}
+
+//	public void setId(Long id) {
+//		this.id = id;
+//	}
 
 	public Set<Job> getJobs() {
 		return jobs;
