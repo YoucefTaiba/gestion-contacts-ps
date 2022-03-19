@@ -3,8 +3,13 @@ package com.poliscrypts.project.exceptions;
 public class ContactNotFoundException extends RuntimeException {
 
 
-	public ContactNotFoundException(String arg0) {
-		super(arg0); 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6299745006846958480L;
+
+	public ContactNotFoundException(String exception) {
+		super(exception); 
 	}
 
 

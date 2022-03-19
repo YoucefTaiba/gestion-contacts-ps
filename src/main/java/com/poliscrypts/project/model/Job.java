@@ -3,7 +3,6 @@ package com.poliscrypts.project.model;
 import javax.persistence.*;
 
 @Entity
-
 public class Job {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,9 +40,6 @@ public class Job {
 
 	public Float getTva() {
 		return tva;
-	}
-	public Long getId() {
-		return id;
 	}
 
 	public void setTitre(String titre) {

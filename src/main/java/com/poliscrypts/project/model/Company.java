@@ -17,8 +17,7 @@ public class Company implements Serializable {
 	private float tva; 
 
 	public Company() {
-		super();
-		// TODO Auto-generated constructor stub
+		super(); 
 	}
 
 	public Company(Long id, String nom, String adresse, float tva) {
@@ -51,9 +50,6 @@ public class Company implements Serializable {
 
 	public float getTva() {
 		return tva;
-	}
-	public Long getId() {
-		return id;
 	}
 
 	public void setNom(String nom) {
