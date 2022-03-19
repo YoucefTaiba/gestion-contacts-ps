@@ -4,23 +4,14 @@
 package com.poliscrypts.project.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 /**
  * @author youcef
@@ -39,12 +30,11 @@ public class Contact implements Serializable {
 	// Freelnace
 	private String adresse;
 	@OneToMany(targetEntity = Job.class)
-	private Set<Job> jobs = new HashSet<Job>();
+	private Set<Job> job = new HashSet<Job>();
 
 	
 	public Contact() {
-		super();
-		// TODO Auto-generated constructor stub
+		super(); 
 	}
 
 	public Contact(String nom, String prenom, String adresse) {
@@ -77,21 +67,13 @@ public class Contact implements Serializable {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
- 
-	public Long getId() {
-		return id;
-	}
-
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
 
 	public Set<Job> getJobs() {
-		return jobs;
+		return job;
 	}
 
 	public void setJobs(Set<Job> workingAt) {
-		this.jobs = workingAt;
+		this.job = workingAt;
 	}
 
 	@Override

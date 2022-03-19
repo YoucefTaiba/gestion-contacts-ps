@@ -21,6 +21,7 @@ import com.poliscrypts.project.service.CompanyService;
 @RequestMapping("/company")
 public class CompanyResource {
 	private final CompanyService companyService;
+
 	@Autowired
 	public CompanyResource(CompanyService companyService) {
 		this.companyService = companyService;
