@@ -3,7 +3,6 @@
  */
 package com.poliscrypts.project.model;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,13 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author youcef
  *
  */
 @Entity
-public class Contact implements Serializable {
+
+@Table(name = "contacts")
+public class Contact {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,18 +32,25 @@ public class Contact implements Serializable {
 	// Freelnace
 	private String adresse;
 	@OneToMany(targetEntity = Job.class)
-	private Set<Job> job = new HashSet<Job>();
+	private Set<Job> jobs = new HashSet<Job>();
 
-	
 	public Contact() {
-		super(); 
 	}
-
+	public Contact(Long id,String nom, String prenom, String adresse) {
+		this.id =id;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.adresse = adresse;
+	}
 	public Contact(String nom, String prenom, String adresse) {
 
 		this.nom = nom;
 		this.prenom = prenom;
 		this.adresse = adresse;
+	}
+
+	public Long getId() {
+		return id;
 	}
 
 	public String getNom() {
@@ -69,16 +78,15 @@ public class Contact implements Serializable {
 	}
 
 	public Set<Job> getJobs() {
-		return job;
+		return jobs;
 	}
 
 	public void setJobs(Set<Job> workingAt) {
-		this.job = workingAt;
+		this.jobs = workingAt;
 	}
 
-	@Override
-	public String toString() {
-		return "Contact [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", adresse=" + adresse +  "]";
-	}
+	public boolean equals(Contact contact) {
+		return (this.nom.equalsIgnoreCase(contact.getNom())) && (this.prenom.equalsIgnoreCase(contact.getPrenom()));
+	} 
 
 }

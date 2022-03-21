@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -38,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Use BCryptPasswordEncoder
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
-
+ 
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -47,21 +48,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
+
 		CustomAuthentificationFilter customAuthentificationFilter = new CustomAuthentificationFilter(
 				authenticationManagerBean());
 		customAuthentificationFilter.setFilterProcessesUrl("/api/login");
 		httpSecurity.csrf().disable();
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		httpSecurity.authorizeRequests().antMatchers( "/api/login","/api/token/refresh").permitAll();
-		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/company/all").hasAnyAuthority("ROLE_USER");
-		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/contact/all").hasAnyAuthority("ROLE_USER");
-		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ROLE_USER"); 
-		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save/**").hasAnyAuthority("ROLE_MANAGER"); 
-		httpSecurity.authorizeRequests().anyRequest().authenticated();
+//		httpSecurity.authorizeRequests().antMatchers("/api/login", "/api/token/refresh").permitAll();
+//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/company/all").hasAnyAuthority("ROLE_USER");
+//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/contact/all").hasAnyAuthority("ROLE_USER");
+//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ROLE_USER");
+//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save").hasAnyAuthority("ROLE_MANAGER");
+//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/addtouser")
+//				.hasAnyAuthority("ROLE_MANAGER");
+		httpSecurity.authorizeRequests().anyRequest().permitAll();
 		httpSecurity.addFilter(customAuthentificationFilter);
 		httpSecurity.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-
+/*
 	@Bean
 	public CorsFilter corsFiltre() {
 		CorsConfiguration configuration = new CorsConfiguration();
@@ -73,4 +77,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		source.registerCorsConfiguration("/**", configuration);
 		return new CorsFilter(source);
 	}
+	*/
 }

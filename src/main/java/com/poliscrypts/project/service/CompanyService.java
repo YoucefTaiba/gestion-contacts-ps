@@ -1,6 +1,8 @@
 package com.poliscrypts.project.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,12 +37,15 @@ public class CompanyService {
 		return companyRepository.findAll();
 	}
 
-	public Company updateCompany(Company company) {
-		return companyRepository.save(company);
+	public Optional<Company> updateCompany(Long id, Company company) {
+		return companyRepository.findCompanyById(id).map(old -> {
+			Company update = new Company(id, company.getNom(), company.getAdresse(), company.getTva());
+			return companyRepository.save(update);
+		});
 	}
 
 	public void deleteCompany(Long id) {
 		companyRepository.deleteCompanyById(id);
-	} 
-	
+	}
+
 }

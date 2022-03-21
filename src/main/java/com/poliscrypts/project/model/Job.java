@@ -1,8 +1,16 @@
 package com.poliscrypts.project.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "jobs")
 public class Job {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -10,22 +18,27 @@ public class Job {
 	private Long id;
 	private String titre;
 
-	private Boolean isFreelance = false;
+	private Boolean freelance = false;
 	private Float tva = 0F;
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Company company;
-	
+	public Job() {
+		super();
+	}
 	public Job(String titre, Company company) {
 		this.titre = titre;
 		this.company = company;
 	}
 
-	public Job(String titre, Company company, Boolean isFreelance, Float tva) {
+	public Job(String titre, Company company, Boolean freelance, Float tva) {
 		this.titre = titre;
 		this.company = company;
-		this.isFreelance = isFreelance;
+		this.freelance = freelance;
 		this.tva = tva;
 	}
-
+	public Long getId() {
+		return id;
+	}
 	public String getTitre() {
 		return titre;
 	}
@@ -34,8 +47,8 @@ public class Job {
 		return company;
 	}
 
-	public Boolean getIsFreelance() {
-		return isFreelance;
+	public Boolean isFreelance() {
+		return freelance;
 	}
 
 	public Float getTva() {
@@ -50,8 +63,8 @@ public class Job {
 		this.company = company;
 	}
 
-	public void setIsFreelance(Boolean isFreelance) {
-		this.isFreelance = isFreelance;
+	public void setFreelance(Boolean isFreelance) {
+		this.freelance = isFreelance;
 	}
 
 	public void setTva(Float tva) {
