@@ -1,6 +1,13 @@
 package com.poliscrypts.project.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "jobs")
@@ -13,8 +20,11 @@ public class Job {
 
 	private Boolean freelance = false;
 	private Float tva = 0F;
+	@ManyToOne(fetch=FetchType.LAZY)
 	private Company company;
-
+	public Job() {
+		super();
+	}
 	public Job(String titre, Company company) {
 		this.titre = titre;
 		this.company = company;
@@ -26,7 +36,9 @@ public class Job {
 		this.freelance = freelance;
 		this.tva = tva;
 	}
-
+	public Long getId() {
+		return id;
+	}
 	public String getTitre() {
 		return titre;
 	}

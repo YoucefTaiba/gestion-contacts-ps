@@ -1,12 +1,14 @@
 package com.poliscrypts.project.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -40,14 +42,13 @@ public class CompanyResource {
 	}
 
 	@PostMapping("/add")
-	public ResponseEntity<Company> addCompany(@RequestBody Company newCompany) {
-		Company company = companyService.addCompany(newCompany);
-		return new ResponseEntity<>(company, HttpStatus.CREATED);
+	public ResponseEntity<Company> addCompany(@ModelAttribute Company newCompany) { 
+		return new ResponseEntity<>(companyService.addCompany(newCompany), HttpStatus.CREATED);
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<Company> updateCompany(@RequestBody Company company) {
-		Company updateCompany = companyService.addCompany(company);
+	public ResponseEntity<Optional<Company>> updateCompany(@PathVariable("id") Long id,@RequestBody Company company) {
+		Optional<Company> updateCompany = companyService.updateCompany(id,company);
 		return new ResponseEntity<>(updateCompany, HttpStatus.OK);
 	}
 

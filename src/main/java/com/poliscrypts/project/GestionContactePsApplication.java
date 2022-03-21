@@ -13,9 +13,10 @@ public class GestionContactePsApplication {
 		SpringApplication.run(GestionContactePsApplication.class, args);
 	}
 
+	//Resolve the cyclic problem (circular bean dependency)
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	} 
+	}
 	   
 }

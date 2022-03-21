@@ -1,6 +1,5 @@
 package com.poliscrypts.project.service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.poliscrypts.project.exceptions.ContactNotFoundException;
 import com.poliscrypts.project.exceptions.JobNotFoundException;
-import com.poliscrypts.project.model.Company;
 import com.poliscrypts.project.model.Contact;
 import com.poliscrypts.project.model.Job;
 import com.poliscrypts.project.repo.ContactRepository;
@@ -30,9 +28,9 @@ public class ContactService {
 		this.jobRepository = jobRepository;
 	}
 
-	public Contact addContact(Contact Contact) {
+	public Contact addContact(Contact contact) {
 
-		return contactRepository.save(Contact);
+		return contactRepository.save(contact);
 
 	}
 
@@ -45,21 +43,27 @@ public class ContactService {
 		return contactRepository.findAll();
 	}
 
-	public Contact updateContact(Contact Contact) {
-		return contactRepository.save(Contact);
+	public Contact updateContact(Contact contact) {
+		return contactRepository.save(contact);
+	}
+
+	public Optional<Contact> updateContact(Long id, Contact contact) {
+		return contactRepository.findContactById(id).map(old -> {
+			Contact contactUpdate = new Contact(old.getId(), contact.getNom(), contact.getPrenom(),
+					contact.getAdresse());
+			return contactRepository.save(contactUpdate);
+		});
 	}
 
 	public void deleteContact(Long id) {
 		contactRepository.deleteContactById(id);
 	}
+
 	public Set<Job> findAllJobs(Long id) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
-		Set<Job> jobs = new HashSet<Job>();
-		if (contact.isPresent()) {
-			jobs=contact.get().getJobs();
-		}
-		return jobs;
+		return contact.get().getJobs();
 	}
+
 	public Optional<Contact> addJobToContact(Long id, Job job) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
 		if (contact.isPresent()) {
@@ -70,7 +74,7 @@ public class ContactService {
 
 	public Optional<Contact> deleteJobfromContact(Long id, Long jobId) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
-		Job job=jobRepository.getById(jobId);
+		Job job = jobRepository.getById(jobId);
 		if (contact.isPresent()) {
 			contact.get().getJobs().remove(job);
 		}
