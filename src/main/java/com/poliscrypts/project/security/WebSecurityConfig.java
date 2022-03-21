@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		CustomAuthentificationFilter customAuthentificationFilter = new CustomAuthentificationFilter(
+		/*CustomAuthentificationFilter customAuthentificationFilter = new CustomAuthentificationFilter(
 				authenticationManagerBean());
 		customAuthentificationFilter.setFilterProcessesUrl("/api/login");
 		httpSecurity.csrf().disable();
@@ -61,6 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.authorizeRequests().anyRequest().authenticated();
 		httpSecurity.addFilter(customAuthentificationFilter);
 		httpSecurity.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
+		*/
 	}
 
 	@Bean

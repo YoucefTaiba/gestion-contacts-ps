@@ -3,6 +3,7 @@ package com.poliscrypts.project.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "jobs")
 public class Job {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -10,19 +11,19 @@ public class Job {
 	private Long id;
 	private String titre;
 
-	private Boolean isFreelance = false;
+	private Boolean freelance = false;
 	private Float tva = 0F;
 	private Company company;
-	
+
 	public Job(String titre, Company company) {
 		this.titre = titre;
 		this.company = company;
 	}
 
-	public Job(String titre, Company company, Boolean isFreelance, Float tva) {
+	public Job(String titre, Company company, Boolean freelance, Float tva) {
 		this.titre = titre;
 		this.company = company;
-		this.isFreelance = isFreelance;
+		this.freelance = freelance;
 		this.tva = tva;
 	}
 
@@ -34,8 +35,8 @@ public class Job {
 		return company;
 	}
 
-	public Boolean getIsFreelance() {
-		return isFreelance;
+	public Boolean isFreelance() {
+		return freelance;
 	}
 
 	public Float getTva() {
@@ -50,8 +51,8 @@ public class Job {
 		this.company = company;
 	}
 
-	public void setIsFreelance(Boolean isFreelance) {
-		this.isFreelance = isFreelance;
+	public void setFreelance(Boolean isFreelance) {
+		this.freelance = isFreelance;
 	}
 
 	public void setTva(Float tva) {

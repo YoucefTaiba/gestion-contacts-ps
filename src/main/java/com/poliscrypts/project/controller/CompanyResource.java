@@ -18,7 +18,7 @@ import com.poliscrypts.project.model.Company;
 import com.poliscrypts.project.service.CompanyService;
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("api/company")
 public class CompanyResource {
 	private final CompanyService companyService;
 

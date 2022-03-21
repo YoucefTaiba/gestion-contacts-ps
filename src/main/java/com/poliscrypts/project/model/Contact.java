@@ -12,12 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author youcef
  *
  */
 @Entity
+
+@Table(name = "contacts")
 public class Contact implements Serializable {
 
 	@Id
@@ -30,7 +33,7 @@ public class Contact implements Serializable {
 	// Freelnace
 	private String adresse;
 	@OneToMany(targetEntity = Job.class)
-	private Set<Job> job = new HashSet<Job>();
+	private Set<Job> jobs = new HashSet<Job>();
 
 	
 	public Contact() {
@@ -69,11 +72,11 @@ public class Contact implements Serializable {
 	}
 
 	public Set<Job> getJobs() {
-		return job;
+		return jobs;
 	}
 
 	public void setJobs(Set<Job> workingAt) {
-		this.job = workingAt;
+		this.jobs = workingAt;
 	}
 
 	@Override

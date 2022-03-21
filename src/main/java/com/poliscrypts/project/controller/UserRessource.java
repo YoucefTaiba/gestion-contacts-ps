@@ -40,27 +40,28 @@ public class UserRessource {
 		this.userServiceImpl = userServiceImpl;
 	}
 
-	@GetMapping("/users")
+	@GetMapping("/user/all")
 	public ResponseEntity<List<User>> findAllUsers() {
 		return ResponseEntity.ok(userServiceImpl.getUsers());
 	}
 
-	@PostMapping("/user/save")
+	@PostMapping("/user/add")
 	public ResponseEntity<User> addUser(@RequestBody User User) {
-		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/user/save").toUriString());
+		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/add").toUriString());
 		return ResponseEntity.created(uri).body(userServiceImpl.saveUser(User));
+	}
+
+	@PostMapping("/user/addrole")
+	public ResponseEntity<User> saveRoleToUser(@RequestBody RoleToUserForm form) {
+		userServiceImpl.addRoleToUser(form.getUsername(), form.getRolename());
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping("/role/save")
 	public ResponseEntity<Role> addRole(@RequestBody Role role) {
-		URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
+		URI uri = URI
+				.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/role/save").toUriString());
 		return ResponseEntity.created(uri).body(userServiceImpl.saveRole(role));
-	}
-
-	@PostMapping("/role/addtouser")
-	public ResponseEntity<User> saveRoleToUser(@RequestBody RoleToUserForm form) {
-		userServiceImpl.addRoleToUser(form.getUsername(), form.getRolename());
-		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/token/refresh")
@@ -85,13 +86,13 @@ public class UserRessource {
 				response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
 				new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 			} catch (Exception e) {
-				response.setHeader("error refreshToken", e.getMessage()); 
+				response.setHeader("error refreshToken", e.getMessage());
 				response.setStatus(org.springframework.http.HttpStatus.FORBIDDEN.value());
 				Map<String, String> error = new HashMap<>();
 				response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
 				try {
 					new ObjectMapper().writeValue(response.getOutputStream(), error);
-				} catch (IOException e1) { 
+				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}

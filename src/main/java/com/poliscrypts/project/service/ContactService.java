@@ -1,7 +1,9 @@
 package com.poliscrypts.project.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,19 +52,29 @@ public class ContactService {
 	public void deleteContact(Long id) {
 		contactRepository.deleteContactById(id);
 	}
-
-	public void addJobToContact(Long id, Job job) {
+	public Set<Job> findAllJobs(Long id) {
+		Optional<Contact> contact = contactRepository.findContactById(id);
+		Set<Job> jobs = new HashSet<Job>();
+		if (contact.isPresent()) {
+			jobs=contact.get().getJobs();
+		}
+		return jobs;
+	}
+	public Optional<Contact> addJobToContact(Long id, Job job) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
 		if (contact.isPresent()) {
 			contact.get().getJobs().add(job);
 		}
+		return contact;
 	}
 
-	public void deleteJobfromContact(Long id, Job job) {
+	public Optional<Contact> deleteJobfromContact(Long id, Long jobId) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
+		Job job=jobRepository.getById(jobId);
 		if (contact.isPresent()) {
 			contact.get().getJobs().remove(job);
 		}
+		return contact;
 	}
 
 	public Job addJob(Job job) {
