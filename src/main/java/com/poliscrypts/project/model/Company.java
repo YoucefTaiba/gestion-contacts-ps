@@ -1,21 +1,22 @@
 package com.poliscrypts.project.model;
 
-import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "companys")
 public class Company   {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", nullable = false, updatable = false)
+	@GeneratedValue(strategy = GenerationType.AUTO) 
 	private Long id;
 	private String nom;
 	private String adresse; 
-	private float tva;
+	private float tva;  
 	public Company() { 
-		 
 	}
 	public Company(String nom, String adresse, float tva) {
 		this.nom = nom;
@@ -47,7 +48,9 @@ public class Company   {
 	public float getTva() {
 		return tva;
 	}
-
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
