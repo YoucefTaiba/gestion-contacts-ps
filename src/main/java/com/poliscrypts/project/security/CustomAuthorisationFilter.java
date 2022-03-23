@@ -39,18 +39,17 @@ public class CustomAuthorisationFilter extends OncePerRequestFilter {
 					DecodedJWT decodedJWT = jwtVerifier.verify(token);
 					String username = decodedJWT.getSubject();
 					String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-					System.out.println(username);
+					System.out.println(username +" "+roles);
 					Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 					for (int i = 0; i < roles.length; i++) {
 						String role = roles[i];
 						authorities.add(new SimpleGrantedAuthority(role));
-					}
-					System.out.println(authorities);
+					} 
 					UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 							username, null, authorities);
 					SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 					filterChain.doFilter(request, response);
-				} catch (Exception e) {
+				} catch (Exception e) { 
 					response.setHeader("error:", e.getMessage());
 					response.setCharacterEncoding("UTF-8");
 					response.setStatus(org.springframework.http.HttpStatus.FORBIDDEN.value());

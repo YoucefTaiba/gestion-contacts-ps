@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,16 +51,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		httpSecurity.authorizeRequests().antMatchers("/api/login").permitAll();
 		httpSecurity.authorizeRequests().antMatchers("/api/user/**").permitAll();
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/company/all").hasAnyAuthority("ROLE_USER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/contact/all").hasAnyAuthority("ROLE_USER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ROLE_USER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save").hasAnyAuthority("ROLE_MANAGER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/addtouser")
-//				.hasAnyAuthority("ROLE_MANAGER");
+		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/company/all").hasAnyAuthority("ROLE_USER");
+		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/contact/all").hasAnyAuthority("ROLE_USER"); 
+		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/addtouser")
+				.hasAnyAuthority("ROLE_MANAGER");
 		httpSecurity.authorizeRequests().anyRequest().authenticated();
 		httpSecurity.addFilter(customAuthentificationFilter);
 		httpSecurity.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
+	/* 
+	 * insert into ROLES values (1,'ROLE_USER');
+	 * insert into ROLES values (2,'ROLE_MANAGER');
+	 * insert into  USERS_ROLES  values (1,1); 
+	 * insert into  USERS_ROLES  values (1,2); 
+	 */
 	 @Bean
 	    public CorsConfigurationSource corsConfigurationSource() {
 	        CorsConfiguration configuration = new CorsConfiguration();
