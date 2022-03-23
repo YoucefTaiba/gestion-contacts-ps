@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,14 +32,23 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
 
 	public CustomAuthentificationFilter(AuthenticationManager authenticationManager) {
 		this.authenticationManager = authenticationManager;
+
 	}
 
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String username, password;
+
+		try {
+			@SuppressWarnings("unchecked")
+			Map<String, String> requestMap = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+			username = requestMap.get("username");
+			password = requestMap.get("password");
+		} catch (IOException e) {
+			throw new AuthenticationServiceException(e.getMessage(), e);
+		}
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 				password);
 		return authenticationManager.authenticate(authenticationToken);
