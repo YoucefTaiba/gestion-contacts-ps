@@ -1,15 +1,10 @@
 package com.poliscrypts.project;
 
-import java.util.Arrays;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter; 
+import org.springframework.security.crypto.password.PasswordEncoder;  
 
 @SpringBootApplication
 public class GestionContactePsApplication { 
@@ -22,17 +17,5 @@ public class GestionContactePsApplication {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	} 
 	}
-	@Bean
-	public CorsFilter corsFiltre() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-		configuration.setAllowCredentials(true);
-		configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Origin","Authorization", "Content-Type,", "Origin", "Accept"));
-		configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin","Authorization", "Content-Type,", "Origin", "Accept","x-auth-token"));
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return new CorsFilter(source);
-	}
-}
