@@ -8,22 +8,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource; 
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -34,12 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		// configure AuthenticationManager so that it knows from where to load
-		// user for matching credentials
-		// Use BCryptPasswordEncoder
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
- 
+
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -50,32 +44,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 
 		CustomAuthentificationFilter customAuthentificationFilter = new CustomAuthentificationFilter(
-				authenticationManagerBean());
+				authenticationManagerBean()); 
 		customAuthentificationFilter.setFilterProcessesUrl("/api/login");
+		httpSecurity.cors();
 		httpSecurity.csrf().disable();
 		httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//		httpSecurity.authorizeRequests().antMatchers("/api/login", "/api/token/refresh").permitAll();
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/company/all").hasAnyAuthority("ROLE_USER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/contact/all").hasAnyAuthority("ROLE_USER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/users").hasAnyAuthority("ROLE_USER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save").hasAnyAuthority("ROLE_MANAGER");
-//		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/addtouser")
-//				.hasAnyAuthority("ROLE_MANAGER");
-		httpSecurity.authorizeRequests().anyRequest().permitAll();
+		httpSecurity.authorizeRequests().antMatchers("/api/login").permitAll();
+		httpSecurity.authorizeRequests().antMatchers("/api/user/**").permitAll();
+		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/company/all").hasAnyAuthority("ROLE_USER");
+		httpSecurity.authorizeRequests().antMatchers(HttpMethod.GET, "/api/contact/all").hasAnyAuthority("ROLE_USER"); 
+		httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/api/role/addtouser")
+				.hasAnyAuthority("ROLE_MANAGER");
+		httpSecurity.authorizeRequests().anyRequest().authenticated();
 		httpSecurity.addFilter(customAuthentificationFilter);
 		httpSecurity.addFilterBefore(new CustomAuthorisationFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
-/*
-	@Bean
-	public CorsFilter corsFiltre() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-		configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
-		configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return new CorsFilter(source);
-	}
-	*/
+	/* 
+	 * insert into ROLES values (1,'ROLE_USER');
+	 * insert into ROLES values (2,'ROLE_MANAGER');
+	 * insert into  USERS_ROLES  values (1,1); 
+	 * insert into  USERS_ROLES  values (1,2); 
+	 */
+	 @Bean
+	    public CorsConfigurationSource corsConfigurationSource() {
+	        CorsConfiguration configuration = new CorsConfiguration();
+	        configuration.setAllowedOrigins(Arrays.asList("*"));
+	        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+	        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+	        configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
+	         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	        source.registerCorsConfiguration("/**", configuration);
+	        return source;
+	    }
+	
 }

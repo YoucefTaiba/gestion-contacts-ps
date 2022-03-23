@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +30,7 @@ import com.poliscrypts.project.model.Role;
 import com.poliscrypts.project.model.User;
 import com.poliscrypts.project.service.UserServiceImpl;
 
-@RestController
+@RestController  
 @RequestMapping("/api")
 public class UserRessource {
 

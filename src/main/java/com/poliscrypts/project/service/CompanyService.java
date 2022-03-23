@@ -39,7 +39,7 @@ public class CompanyService {
 
 	public Optional<Company> updateCompany(Long id, Company company) {
 		return companyRepository.findCompanyById(id).map(old -> {
-			Company update = new Company(id, company.getNom(), company.getAdresse(), company.getTva());
+			Company update = new Company( id, company.getNom(), company.getAdresse(), company.getTva()); 
 			return companyRepository.save(update);
 		});
 	}
