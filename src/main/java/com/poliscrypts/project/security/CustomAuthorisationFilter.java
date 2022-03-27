@@ -26,8 +26,8 @@ public class CustomAuthorisationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-		if (request.getServletPath().equals("/api/login")
-				|| request.getServletPath().equals("/api/token/refresh")) {
+		if (request.getServletPath().startsWith("/api/login")
+				|| request.getServletPath().startsWith("/api/token/refresh")) {
 			filterChain.doFilter(request, response);
 		} else {
 			String authorizationHeader = request.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
@@ -38,8 +38,7 @@ public class CustomAuthorisationFilter extends OncePerRequestFilter {
 					JWTVerifier jwtVerifier = JWT.require(algorithm).build();
 					DecodedJWT decodedJWT = jwtVerifier.verify(token);
 					String username = decodedJWT.getSubject();
-					String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
-					System.out.println(username +" "+roles);
+					String[] roles = decodedJWT.getClaim("roles").asArray(String.class); 
 					Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
 					for (int i = 0; i < roles.length; i++) {
 						String role = roles[i];

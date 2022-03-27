@@ -75,7 +75,7 @@ public class UserRessource {
 				JWTVerifier jwtVerifier = JWT.require(algorithm).build();
 				DecodedJWT decodedJWT = jwtVerifier.verify(refresh_token);
 				String username = decodedJWT.getSubject();
-				User user = userServiceImpl.getUser(username);
+				User user = userServiceImpl.getUser(username); 
 				String acesse_token = JWT.create().withSubject(user.getUsername())
 						.withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
 						.withIssuer(request.getRequestURL().toString())

@@ -37,6 +37,10 @@ public class DataInitializer implements CommandLineRunner {
 		userRepository.addRoleToUser("bessaha", "ROLE_USER");
 		companyService.addCompany(new Company("company1", "adress", .19F));
 		companyService.addCompany(new Company("company2", "adress", .17F));
+		companyService.addCompany(new Company("company3", "adress", .19F));
+		companyService.addCompany(new Company("company4", "adress", .17F));
+		companyService.addCompany(new Company("company5", "adress", .19F));
+		companyService.addCompany(new Company("company6", "adress", .17F));
 		contactService.addContact(new Contact("contact1","youcef","adress"));
 
 	}
