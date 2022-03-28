@@ -2,11 +2,12 @@ package com.poliscrypts.project.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.StringJoiner;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,9 +16,7 @@ public class User {
 	private String username;
 	private String password;
 	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "users_roles", 
-				joinColumns = @JoinColumn(name = "user_id"), 
-				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Collection<Role> roles = new ArrayList<Role>();
 
 	public User() {
@@ -96,4 +95,13 @@ public class User {
 	public Collection<Role> getRoles() {
 		return roles;
 	}
+/*
+	@Override
+	public String toString() {
+		StringJoiner joiner = new StringJoiner(",");
+		for (Role role : roles) {
+			joiner.add(role.getName());
+		}
+		return "user:{\"id\":" + id + ",\"name\":" + name + ",\"username\":" + username + ",\"roles\":{" + joiner + "}}";
+	}*/
 }

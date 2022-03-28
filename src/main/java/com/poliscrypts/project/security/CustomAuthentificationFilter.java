@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
@@ -49,6 +50,7 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
 		}
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
 				password);
+
 		return authenticationManager.authenticate(authenticationToken);
 	}
 
@@ -65,11 +67,15 @@ public class CustomAuthentificationFilter extends UsernamePasswordAuthentication
 				.sign(algorithm);
 		String refresh_token = JWT.create().withSubject(user.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-				.withIssuer(request.getRequestURL().toString()).sign(algorithm); 
+				.withIssuer(request.getRequestURL().toString()).sign(algorithm);
 		Map<String, String> tokens = new HashMap<>();
 		tokens.put("acesse_token", acesse_token);
 		tokens.put("refresh_token", refresh_token);
-
+		StringJoiner joiner = new StringJoiner(",");
+		for (GrantedAuthority authority : user.getAuthorities()) {
+			joiner.add(authority.toString());
+		}  
+		tokens.put("roles", joiner.toString());
 		response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
 		new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 

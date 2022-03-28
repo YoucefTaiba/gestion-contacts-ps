@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -83,7 +85,12 @@ public class UserRessource {
 						.sign(algorithm);
 				Map<String, String> tokens = new HashMap<>();
 				tokens.put("acesse_token", acesse_token);
-				tokens.put("refresh_token", refresh_token);
+				tokens.put("refresh_token", refresh_token);  
+				StringJoiner joiner = new StringJoiner(",");
+				for (Role role : user.getRoles()) {
+					joiner.add(role.getName());
+				}
+				tokens.put("roles",joiner.toString()); 
 				response.setContentType(org.springframework.http.MediaType.APPLICATION_JSON_VALUE);
 				new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 			} catch (Exception e) {
