@@ -5,11 +5,14 @@ import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.poliscrypts.project.exceptions.ContactNotFoundException;
 import com.poliscrypts.project.exceptions.JobNotFoundException;
+import com.poliscrypts.project.model.Company;
 import com.poliscrypts.project.model.Contact;
 import com.poliscrypts.project.model.Job;
 import com.poliscrypts.project.repo.ContactRepository;
@@ -38,9 +41,11 @@ public class ContactService {
 		return contactRepository.findContactById(id)
 				.orElseThrow(() -> new ContactNotFoundException("Contact id :" + id + " was not found "));
 	}
-
-	public List<Contact> findAllContacts() {
-		return contactRepository.findAll();
+	public Page<Contact> findContactByName(String name, Pageable paging) {
+		return contactRepository.findContactByNom(name, paging);
+	}
+	public Page<Contact> findAllContacts(Pageable paging) {
+		return contactRepository.findAll(paging);
 	}
 
 	public Contact updateContact(Contact contact) {

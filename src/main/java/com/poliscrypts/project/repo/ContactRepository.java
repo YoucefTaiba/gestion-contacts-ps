@@ -15,7 +15,7 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
 	void deleteContactById(Long id);
 
 	Optional<Contact> findContactById(Long id);
-
+	Page<Contact> findContactByNom(String name, Pageable pageable);
 	@Query("select c from Contact c where c.nom like :x")
 	public Page<Contact> searche(@Param("x") String mc, Pageable pageable);
 }

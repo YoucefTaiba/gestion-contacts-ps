@@ -67,7 +67,7 @@ public class UserRessource {
 		return ResponseEntity.created(uri).body(userServiceImpl.saveRole(role));
 	}
 
-	@GetMapping("/token/refresh")
+	@PostMapping("/token/refresh")
 	public void refreshToken(HttpServletRequest request, HttpServletResponse response) {
 		String authorizationHeader = request.getHeader(org.springframework.http.HttpHeaders.AUTHORIZATION);
 		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
