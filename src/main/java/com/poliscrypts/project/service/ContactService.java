@@ -99,7 +99,7 @@ public class ContactService {
 	}
 
 	public Job findJobById(Long id) {
-		return jobRepository.findJobById(id)
+		return jobRepository.findById(id)
 				.orElseThrow(() -> new JobNotFoundException("Job id :" + id + " was not found "));
 
 	}

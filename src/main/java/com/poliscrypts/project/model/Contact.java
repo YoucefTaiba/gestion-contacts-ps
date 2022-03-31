@@ -6,7 +6,9 @@ package com.poliscrypts.project.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +33,7 @@ public class Contact {
 	private String prenom;
 	// Freelnace
 	private String adresse;
-	@OneToMany(targetEntity = Job.class)
+	@OneToMany(fetch = FetchType.EAGER,  cascade = CascadeType.ALL)
 	private Set<Job> jobs = new HashSet<Job>();
 
 	public Contact() {

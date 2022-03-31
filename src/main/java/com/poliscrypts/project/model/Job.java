@@ -1,10 +1,14 @@
 package com.poliscrypts.project.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,21 +18,22 @@ public class Job {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", nullable = false, updatable = false)
 	private Long id;
-	private String titre;
-	@Column(name = "company_id")
-	private Long company ;
+	private String titre; 
+	@OneToOne (cascade = CascadeType.MERGE)
+	@JoinColumn(name="COMPANYS_ID", referencedColumnName = "id",nullable=true)
+	private Company company ;
 	private Boolean freelance = false;
 	private Float tva = 0F;
 
 	public Job() {
 	}
 
-	public Job(String titre, Long company) {
+	public Job(String titre, Company company) {
 		this.titre = titre;
 		this.company  = company;
 	}
 
-	public Job(String titre, Long company, Boolean freelance, Float tva) {
+	public Job(String titre, Company company, Boolean freelance, Float tva) {
 		this(  titre,   company);
 		this.freelance = freelance;
 		this.tva = tva;
@@ -42,7 +47,7 @@ public class Job {
 		return titre;
 	}
 
-	public Long getCompany() {
+	public Company getCompany() {
 		return company;
 	}
 
@@ -58,7 +63,7 @@ public class Job {
 		this.titre = titre;
 	}
 
-	public void setCompany(Long company) {
+	public void setCompany(Company company) {
 		this.company = company;
 	}
 
@@ -68,6 +73,12 @@ public class Job {
 
 	public void setTva(Float tva) {
 		this.tva = tva;
+	}
+
+	@Override
+	public String toString() {
+		return "Job [id=" + id + ", titre=" + titre + ", company=" + company + ", freelance=" + freelance + ", tva="
+				+ tva + "]";
 	}
 
 }
