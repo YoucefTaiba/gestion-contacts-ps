@@ -1,9 +1,11 @@
 package com.poliscrypts.project.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +18,8 @@ public class Company   {
 	private String nom;
 	private String adresse; 
 	private float tva;  
+	@OneToOne( mappedBy="company")
+	private Job job;
 	public Company() { 
 	}
 	public Company(String nom, String adresse, float tva) {
@@ -63,5 +67,9 @@ public class Company   {
 	public void setTva(float tva) {
 		this.tva = tva;
 	}
-
+	@Override
+	public String toString() {
+		return "Company [id=" + id + ", nom=" + nom + ", adresse=" + adresse + ", tva=" + tva + "]";
+	}
+ 
 }
