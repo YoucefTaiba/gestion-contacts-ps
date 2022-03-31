@@ -97,7 +97,7 @@ public class ContactRessource {
 	}
 
 	@DeleteMapping("/deletejob/{id1}/{id2}")
-	public ResponseEntity<Optional<Contact>> addJob(@PathVariable Long id1, @PathVariable Long id2) {
+	public ResponseEntity<Optional<Contact>> deleteJob(@PathVariable Long id1, @PathVariable Long id2) {
 		return new ResponseEntity<>(contactService.deleteJobfromContact(id1, id2), HttpStatus.OK);
 	}
 
