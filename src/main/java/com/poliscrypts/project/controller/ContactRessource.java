@@ -92,7 +92,7 @@ public class ContactRessource {
 	}
 
 	@PutMapping("/addjob/{id}")
-	public ResponseEntity<Optional<Contact>> addJob(@PathVariable Long id, @RequestBody Job job) { 
+	public ResponseEntity<Job> addJob(@PathVariable Long id, @RequestBody Job job) { 
 		return new ResponseEntity<>(contactService.addJobToContact(id,contactService.addJob(job) ), HttpStatus.CREATED);
 	}
 

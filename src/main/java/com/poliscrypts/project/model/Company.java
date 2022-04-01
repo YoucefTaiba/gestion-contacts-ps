@@ -18,8 +18,6 @@ public class Company   {
 	private String nom;
 	private String adresse; 
 	private float tva;  
-	@OneToOne( mappedBy="company")
-	private Job job;
 	public Company() { 
 	}
 	public Company(String nom, String adresse, float tva) {
