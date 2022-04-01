@@ -69,12 +69,12 @@ public class ContactService {
 		return contact.get().getJobs();
 	}
 
-	public Optional<Contact> addJobToContact(Long id, Job job) {
+	public Job addJobToContact(Long id, Job job) {
 		Optional<Contact> contact = contactRepository.findContactById(id);
 		if (contact.isPresent()) {
 			contact.get().getJobs().add(job);
 		}
-		return contact;
+		return job;
 	}
 
 	public Optional<Contact> deleteJobfromContact(Long id, Long jobId) {
